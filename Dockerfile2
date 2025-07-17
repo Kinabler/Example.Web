@@ -1,0 +1,14 @@
+FROM python:3.11-slim
+
+ARG APP_DIR=src2
+
+WORKDIR /app
+
+COPY ${APP_DIR}/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY ${APP_DIR}/ /app
+
+EXPOSE 80
+
+CMD ["gunicorn", "--bind", "0.0.0.0:80", "app:app"]

@@ -1,25 +1,31 @@
 version: "3.9"
 services:
   site1:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile1
+      args:
+        APP_DIR: src1
     container_name: site1
     expose:
       - "80"
-    restart: unless-stopped
 
   site2:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile2
+      args:
+        APP_DIR: src2
     container_name: site2
     expose:
       - "80"
-    restart: unless-stopped
 
   nginx:
     image: nginx:alpine
-    container_name: nginx_multi_site_port
+    container_name: nginx_multi_site
     ports:
-      - "8001:8001"
-      - "8002:8002"
+      - "1337:1337"
+      - "1338:1338"
     volumes:
       - ./nginx/conf.d/2_3.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:

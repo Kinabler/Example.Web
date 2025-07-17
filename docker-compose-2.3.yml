@@ -3,13 +3,26 @@ services:
   site1:
     build: .
     container_name: site1
-    ports:
-      - "8001:80"
+    expose:
+      - "80"
     restart: unless-stopped
 
   site2:
     build: .
     container_name: site2
+    expose:
+      - "80"
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_multi_site_port
     ports:
-      - "8002:80"
+      - "8001:8001"
+      - "8002:8002"
+    volumes:
+      - ./nginx/conf.d/2_3.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - site1
+      - site2
     restart: unless-stopped 

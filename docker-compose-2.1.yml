@@ -3,7 +3,7 @@ services:
     build: .
     container_name: web_single_port
     expose:
-      - "80"          # đổi “ports” thành expose; Nginx sẽ public thay
+      - "80"
     restart: unless-stopped
 
   nginx:
